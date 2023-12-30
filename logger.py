@@ -18,7 +18,7 @@ def setup_logger():
     logger.setLevel(LOG_LEVEL)  # Set the logging level based on global variable
 
     # Create a file handler which logs even debug messages
-    fh = logging.FileHandler('Dogee.log', mode='a')
+    fh = logging.FileHandler(config.LOG_SAVEPATH, mode='a')
     fh.setLevel(LOG_LEVEL)  # Set the logging level for the file handler
 
     # Create console handler with a higher log level
@@ -44,6 +44,10 @@ def new(level: str, msg: str) -> None:
     :param level: debug, info, warning, error, critical
     :param msg: log message
     '''
+
+    # Turn off logs
+    if config.LOG_LEVEL == 'OFF':
+        return
 
     logger = setup_logger()
 
