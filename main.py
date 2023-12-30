@@ -1,4 +1,4 @@
-import api.cdn.log as log
+import core.save_logs as log
 
 
 log.download()
