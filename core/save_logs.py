@@ -108,5 +108,7 @@ async def download_all_logs():
             shutil.rmtree(domainStorePATH)
 
 
-def download():
+def download() -> str:
     asyncio.run(download_all_logs())
+    time = mytimedate.get('yesterday', 0)
+    return f'dogecloud CDN logs on {time} downloaded!'
