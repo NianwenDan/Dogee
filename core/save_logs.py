@@ -50,15 +50,14 @@ def mergeLogs(mergePATH="", domainName="UNKNOWN.DOMAIN"):
 async def save_log_local(fullStorePATH: str, url: str) -> None:
     async with httpx.AsyncClient() as client:
         logger.new('info', 'httpx request: ' + url)
-        response = await client.get(url)
-
-        if response.status_code == 200:
+        try:
+            response = await client.get(url)
             # Write the content to the file asynchronously
             with open(fullStorePATH, "wb") as f:
                 f.write(response.content)
             logger.new('info', 'Stored file to ' + fullStorePATH)
-        else:
-            logger.new('error', f'Failed to download {url} with status code: {response.status_code}')
+        except Exception as err:
+            logger.new('error', f'save_log_local error' + str(err))
 
 
 async def download_all_logs():
