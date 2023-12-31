@@ -7,6 +7,7 @@ import os, sys
 import logger
 import mytimedate
 import api.cdn.log
+import traceback
 
 def mergeLogs(mergePATH="", domainName="UNKNOWN.DOMAIN"):
     logger.new('info', "Merge Logs: " + domainName)
@@ -48,16 +49,18 @@ def mergeLogs(mergePATH="", domainName="UNKNOWN.DOMAIN"):
 
 
 async def save_log_local(fullStorePATH: str, url: str) -> None:
-    async with httpx.AsyncClient() as client:
-        logger.new('info', 'httpx request: ' + url)
-        try:
+    try:
+        async with httpx.AsyncClient() as client:
+            logger.new('info', 'httpx request: ' + url)
             response = await client.get(url)
             # Write the content to the file asynchronously
             with open(fullStorePATH, "wb") as f:
                 f.write(response.content)
             logger.new('info', 'Stored file to ' + fullStorePATH)
-        except Exception as err:
-            logger.new('error', f'save_log_local error' + str(err))
+    except httpx.ConnectTimeout as exc:
+        logger.new('error', f'save_log_local error timeout: ' + str(exc.request.url))
+    except Exception:
+        logger.new('error', f'save_log_local error' + traceback.format_exc())
 
 
 async def download_all_logs():
