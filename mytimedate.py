@@ -1,7 +1,7 @@
 import sys
 import pytz
 from datetime import datetime, timedelta
-from config import TIMEZONE as TZ
+from config import CDN_LOGS_TIMEZONE as TZ
 import logger
 
 def get(when: str, format: int=-1):

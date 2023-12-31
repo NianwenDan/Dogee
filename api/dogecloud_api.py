@@ -28,11 +28,6 @@ def send(api_path: str, data: dict={}, json_mode: bool=False) -> dict:
     access_key = ACCESS_KEY
     secret_key = SECRET_KEY
 
-    # Make sure access_key and secret_key are not empty
-    if not access_key or not secret_key:
-        logger.new('error', 'ACCESS_KEY and SECRET_KEY cannot be empty.')
-        sys.exit(1)
-
     body = ''
     mime = ''
     if json_mode:

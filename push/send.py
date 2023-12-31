@@ -21,7 +21,7 @@ async def main(title : str=None, msg : str=None) -> None:
     # if config.ENABLE_QQ_PUSH:
     #     for qqid in config.QQ_PUSH_NUMBERS:
     #         tasks.append(mie.req(qqid, msg))
-    if config.ENABLE_PUSHDEER:
+    if config.PUSHDEER_KEYS:
         for key in config.PUSHDEER_KEYS:
             tasks.append(pushdeer.req(key, title, msg))
     # if config.ENABLE_ZEPO_MAIL_PUSH:
