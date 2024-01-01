@@ -28,7 +28,12 @@ CDN_LOGS_TIMEZONE = 'Asia/Chongqing'
 
 # Load Configuration File
 config = configparser.ConfigParser()
-config.read('config.ini')
+try:
+    with open('config.ini') as f:
+        config.read_file(f)
+except IOError:
+    logger.new('error', 'Cannot open configuration file.')
+
 sections = config.sections()
 for s in sections:
     if s == 'doge-cloud-key':
