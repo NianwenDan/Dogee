@@ -46,10 +46,10 @@ def send(api_path: str, data: dict={}, json_mode: bool=False) -> dict:
             'Authorization': authorization,
             'Content-Type': mime
         })
-        logger.new('debug', 'httpx requested: ' + str(response.url))
+        logger.new('debug', 'httpx requested:', response.url)
 
         contents = response.json()
-        logger.new('debug', 'httpx response: ' + str(contents))
+        logger.new('debug', 'httpx response:', contents)
         if response.status_code == 200:
             return contents
     except Exception as err:

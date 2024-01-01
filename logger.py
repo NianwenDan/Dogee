@@ -13,7 +13,7 @@ def setup_logger():
         LOG_LEVEL = logging.DEBUG
 
     # Create a logger
-    logger = logging.getLogger('DogeeLogger')
+    logger = logging.getLogger('Dogee')
     logger.setLevel(LOG_LEVEL)  # Set the logging level based on global variable
 
     # Create a file handler which logs even debug messages
@@ -36,7 +36,7 @@ def setup_logger():
 
     return logger
 
-def new(level: str, msg: str) -> None:
+def new(level: str, *msg: list) -> None:
     '''
     Write new log to console and file
 
@@ -49,17 +49,19 @@ def new(level: str, msg: str) -> None:
 
     logger = setup_logger()
 
-    msg = str(msg)
+    full_msg = ''
+    for i in msg:
+        full_msg += str(i) + ' '
 
     if level == 'debug':
-        logger.debug(msg)
+        logger.debug(full_msg)
     elif level == 'info':
-        logger.info(msg)
+        logger.info(full_msg)
     elif level == 'warning':
-        logger.warning(msg)
+        logger.warning(full_msg)
     elif level == 'error':
-        logger.error(msg)
+        logger.error(full_msg)
     elif level == 'critical':
-        logger.critical(msg)
+        logger.critical(full_msg)
     else:
         print('Incorrect Log Level')

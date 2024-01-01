@@ -23,7 +23,7 @@ def get_domain_ids() -> list:
             name = i['name']
             res.append([id, name])
 
-    logger.new('info', str(res))
+    logger.new('info', 'Active Domain List:', res)
     return res
     
 
@@ -46,7 +46,7 @@ def get() -> dict:
         if data['code'] == 200:
             log_info[name] = data['data']['log_list']
 
-    logger.new('debug', str(log_info))
+    logger.new('debug', '\{domain\: its_log_info\}', log_info)
 
     # 返回一个字典{'域名'：'对应域名的log信息'}
     return log_info

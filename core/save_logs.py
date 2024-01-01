@@ -18,7 +18,7 @@ def mergeLogs(mergePATH="", domainName="UNKNOWN.DOMAIN") -> None:
 
     :returns: None
     '''
-    logger.new('info', "Merge Logs: " + domainName)
+    logger.new('info', 'Merge Logs:', domainName)
     if mergePATH == "":
         return
     
@@ -39,7 +39,7 @@ def mergeLogs(mergePATH="", domainName="UNKNOWN.DOMAIN") -> None:
     mainland_logs.sort()
 
     for filename in overseas_logs:
-        logger.new('debug', 'Merge File: ' + mergePATH + filename)
+        logger.new('debug', 'Merge File:', mergePATH, filename)
         with gzip.open(mergePATH + filename, 'rb') as f_in:
             with open(merged_filePATH_overseas, 'ab') as f_out:
                 shutil.copyfileobj(f_in, f_out)
@@ -67,16 +67,16 @@ async def download_log(fullStorePATH: str, url: str) -> None:
     '''
     try:
         async with httpx.AsyncClient() as client:
-            logger.new('info', 'httpx request: ' + url)
+            logger.new('debug', 'httpx request:', url)
             response = await client.get(url)
             # Write the content to the file asynchronously
             with open(fullStorePATH, "wb") as f:
                 f.write(response.content)
-            logger.new('info', 'Stored file to ' + fullStorePATH)
+            logger.new('debug', 'Stored file to', fullStorePATH)
     except httpx.ConnectTimeout as exc:
-        logger.new('error', f'save_log_local error timeout: ' + str(exc.request.url))
+        logger.new('error', 'httpx request timeout:', exc.request.url)
     except Exception:
-        logger.new('error', f'save_log_local error' + traceback.format_exc())
+        logger.new('error', 'httpx unidentified error:', traceback.format_exc())
 
 
 async def download_and_manage_daily_logs() -> None:
@@ -93,6 +93,8 @@ async def download_and_manage_daily_logs() -> None:
     
     tasks = []
 
+    logger.new('info', 'Downloading logs...')
+
     for domain_name, log_infos in log_links.items():
         #domainStorePATH = storePATH + "/" + key + "/" + year + "/" + month + "/logtemps" + "/"
         domainStorePATH = f'{storePATH}/{domain_name}/{year}/{month}/logtemps/'
@@ -105,7 +107,7 @@ async def download_and_manage_daily_logs() -> None:
         try:
             os.makedirs(os.path.dirname(domainStorePATH), exist_ok=True)
         except OSError as exc:
-            logger.new('error', 'Faild to create directory: ' + str(exc))
+            logger.new('error', 'Faild to create directory:', exc)
             sys.exit(1)
 
         for info in log_infos:
