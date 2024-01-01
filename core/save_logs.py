@@ -9,7 +9,15 @@ import mytimedate
 import api.cdn.log
 import traceback
 
-def mergeLogs(mergePATH="", domainName="UNKNOWN.DOMAIN"):
+def mergeLogs(mergePATH="", domainName="UNKNOWN.DOMAIN") -> None:
+    '''
+    Merge logs in mergePATH and save them to the parent directory
+
+    :param mergePATH: The path of the directory to be merged
+    :param domainName: The name of the domain
+
+    :returns: None
+    '''
     logger.new('info', "Merge Logs: " + domainName)
     if mergePATH == "":
         return
@@ -48,7 +56,15 @@ def mergeLogs(mergePATH="", domainName="UNKNOWN.DOMAIN"):
         f_in.close()
 
 
-async def save_log_local(fullStorePATH: str, url: str) -> None:
+async def download_log(fullStorePATH: str, url: str) -> None:
+    '''
+    Download log file from url and save it to fullStorePATH
+
+    :param fullStorePATH: The full path of the file to be stored
+    :param url: The url of the file to be downloaded
+
+    :returns: None
+    '''
     try:
         async with httpx.AsyncClient() as client:
             logger.new('info', 'httpx request: ' + url)
@@ -63,7 +79,12 @@ async def save_log_local(fullStorePATH: str, url: str) -> None:
         logger.new('error', f'save_log_local error' + traceback.format_exc())
 
 
-async def download_all_logs():
+async def download_and_manage_daily_logs() -> None:
+    '''
+    Download CDN logs and manage them
+
+    :returns: None
+    '''
     # 获取一下昨天的时间
     date_list = mytimedate.get('yesterday', 1)
     year, month, day = date_list
@@ -93,12 +114,11 @@ async def download_all_logs():
             # 定义存储路径为{storePATH}/{year}/{month}/{day}/{file_name}.gz
             fullStorePATH = domainStorePATH + f'{file_name}.gz'
             
-            task = asyncio.create_task(save_log_local(fullStorePATH, url))
+            task = asyncio.create_task(download_log(fullStorePATH, url))
             #logger.new('debug', 'Adding task: ' + str(task))
             tasks.append(task)
         
     await asyncio.gather(*tasks)
-
 
     # 合并日志功能
     if MERGE_LOG:
@@ -111,6 +131,11 @@ async def download_all_logs():
 
 
 def download() -> str:
-    asyncio.run(download_all_logs())
+    '''
+    Download CDN logs and save them to local
+
+    :returns: A string that indicates the result
+    '''
+    asyncio.run(download_and_manage_daily_logs())
     time = mytimedate.get('yesterday', 0)
     return f'dogecloud CDN logs on {time} downloaded!'

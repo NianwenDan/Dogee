@@ -5,7 +5,6 @@ def setup_logger():
     '''
     Setup logger configuration
     '''
-
     LOG_LEVEL = logging.ERROR
 
     if config.LOG_LEVEL == 'INFO':
@@ -44,7 +43,6 @@ def new(level: str, msg: str) -> None:
     :param level: debug, info, warning, error, critical
     :param msg: log message
     '''
-
     # Turn off logs
     if config.LOG_LEVEL == 'OFF':
         return

@@ -5,6 +5,9 @@ import sys
 import config
 
 def run() -> None:
+    '''
+    Run the program
+    '''
     if config.CDN_LOG_SAVE_ENABLE:
         msg = log.download()
         asyncio.run(push.send.main('Dogee[OK]: CDN Log Download', msg))
@@ -23,6 +26,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         if '-t' in sys.argv:
             print('This is a test.')
+            asyncio.run(push.send.main('Dogee[OK]: TEST', 'Dogee just tested!'))
         if '-v' in sys.argv:
             print_version()
     else:

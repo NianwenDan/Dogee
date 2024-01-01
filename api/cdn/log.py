@@ -5,6 +5,11 @@ import mytimedate
 
 
 def get_domain_ids() -> list:
+    '''
+    Get all domain ids
+
+    :returns: A 2-D list of [domain ids, domain names]
+    '''
     response = domain.list()
     # if response is not empty
     if not response:
@@ -23,6 +28,11 @@ def get_domain_ids() -> list:
     
 
 def get() -> dict:
+    '''
+    Get all downloadable links
+
+    :returns: A dictionary of all downloadable links
+    '''
     # Dictionary to store all downloadable links
     log_info = {}
     # ex for domain_ids = [[10008, 'nwdan.com'], [10010, 'www.nwdan.com']]
