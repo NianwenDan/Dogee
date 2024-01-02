@@ -15,6 +15,9 @@ LOG_SAVEPATH = 'Dogee.log'
 # Push Service Setting
 # deerpush
 PUSHDEER_KEYS = []
+# pushover
+PUSHOVER_APP_TOKEN = None
+PUSHOVER_USERS = []
 
 # CDN Log Saving Setting
 CDN_LOG_SAVE_ENABLE = False
@@ -25,6 +28,17 @@ CDN_LOGS_STOREPATH = './cdnlog'
 # TimeZone
 CDN_LOGS_TIMEZONE = 'Asia/Chongqing'
 
+
+
+def convert_str_to_list(s : str) -> list:
+    '''
+    Convert string to list
+
+    :param s: string to convert
+    :returns: list
+    '''
+    s = "".join(s.split()) # Remove the spaces
+    return s.split(',')
 
 # Load Configuration File
 config = configparser.ConfigParser()
@@ -50,8 +64,10 @@ for s in sections:
         this_config = config['dogee-push']
         if 'pushdeer_keys' in this_config:
             keys = this_config['pushdeer_keys']
-            keys = "".join(keys.split()) # Remove the spaces
-            PUSHDEER_KEYS = keys.split(',')
+            PUSHDEER_KEYS = convert_str_to_list(keys)
+        if 'pushover_app_token' in this_config and 'pushover_user_key' in this_config:
+            PUSHOVER_APP_TOKEN = this_config['pushover_app_token']
+            PUSHOVER_USERS = convert_str_to_list(this_config['pushover_user_key'])
     elif s == 'doge-cloud-cdn-log-download':
         this_config = config['doge-cloud-cdn-log-download']
         CDN_LOG_SAVE_ENABLE = True
@@ -77,6 +93,8 @@ if not ACCESS_KEY or not SECRET_KEY:
 # print('LOG_LEVEL:', LOG_LEVEL)
 # print('LOG_SAVEPATH:', LOG_SAVEPATH)
 # print('PUSHDEER_KEYS:', PUSHDEER_KEYS)
+# print('PUSHOVER_APP_TOKEN:', PUSHOVER_APP_TOKEN)
+# print('PUSHOVER_USERS:', PUSHOVER_USERS)
 # print('CDN_LOG_SAVE_ENABLE:', CDN_LOG_SAVE_ENABLE)
 # print('MERGE_LOG:', MERGE_LOG)
 # print('CDN_LOGS_STOREPATH:', CDN_LOGS_STOREPATH)

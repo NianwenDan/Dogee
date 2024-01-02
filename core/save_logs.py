@@ -8,6 +8,7 @@ import logger
 import mytimedate
 import api.cdn.log
 import traceback
+import time
 
 def mergeLogs(mergePATH="", domainName="UNKNOWN.DOMAIN") -> None:
     '''
@@ -139,5 +140,7 @@ def download() -> str:
     :returns: A string that indicates the result
     '''
     asyncio.run(download_and_manage_daily_logs())
-    time = mytimedate.get('yesterday', 0)
-    return f'dogecloud CDN logs on {time} downloaded!'
+    cdn_log_time = mytimedate.get('yesterday', 0)
+    curr_sys_time = time.localtime() 
+    curr_clock = time.strftime('%Y-%m-%d %H:%M:%S %Z UTC%z', curr_sys_time)
+    return f'{curr_clock}\n#CDN Log Download\n\nDogecloud CDN logs for {cdn_log_time} have been downloaded!\n多吉云CDN日志({cdn_log_time})已下载完成!'

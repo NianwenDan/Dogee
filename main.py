@@ -19,14 +19,14 @@ def print_version() -> None:
 
     :returns: None
     '''
-    print('Version 1.0')
+    print('Version 1.1')
 
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         if '-t' in sys.argv:
             print('This is a test.')
-            asyncio.run(push.send.main('Dogee[OK]: TEST', 'Dogee just tested!'))
+            asyncio.run(push.send.main('Dogee[OK]: TEST', '#test-msg\nDogee just tested!\n这是一条来自Dogee的测试信息!'))
         if '-v' in sys.argv:
             print_version()
     else:

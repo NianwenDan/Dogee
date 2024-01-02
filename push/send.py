@@ -2,6 +2,7 @@ import asyncio
 import config
 # import push.mie as mie
 import push.pushdeer as pushdeer
+import push.pushover as pushover
 # import push.zeptomail as zepomail
 
 async def main(title : str=None, msg : str=None) -> None:
@@ -24,6 +25,12 @@ async def main(title : str=None, msg : str=None) -> None:
     if config.PUSHDEER_KEYS:
         for key in config.PUSHDEER_KEYS:
             tasks.append(pushdeer.req(key, title, msg))
+    if config.PUSHOVER_APP_TOKEN and config.PUSHOVER_USERS:
+        for user in config.PUSHOVER_USERS:
+            # user is not empty
+            if not user:
+                continue
+            tasks.append(pushover.req(user, title, msg))
     # if config.ENABLE_ZEPO_MAIL_PUSH:
     #     for email in config.EMAIL_PUSH:
     #         tasks.append(zepomail.req(email, title, msg.replace('\n', ' <br>\n')))
