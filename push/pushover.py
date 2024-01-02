@@ -33,12 +33,13 @@ async def req(user: str, title: str, msg : str, priority: int=0) -> None:
         'accept': "application/json",
         'content-type': "application/json"
     }
-    logger.new('info', 'PUSHOVER PUSH:', str(user)[:8])
+    
     async with semaphore:
         try:
             async with httpx.AsyncClient() as client:
                 resp = await client.post('https://api.pushover.net/1/messages.json', data=json.dumps(payload), headers=headers)
                 resp.raise_for_status()
+            logger.new('info', 'PUSHOVER PUSH:', str(user)[:8])
         except Exception as e:
             logger.new('error', 'Pushover push error:', e)
             return

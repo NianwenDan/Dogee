@@ -11,7 +11,6 @@ async def req(key : str, title: str, msg : str) -> None:
 
     :returns: None
     '''
-    logger.new('info', 'PUSHDEER PUSH:', str(key)[:8])
     url = 'https://api2.pushdeer.com/message/push'
     async with httpx.AsyncClient() as client:
         try:
@@ -21,6 +20,7 @@ async def req(key : str, title: str, msg : str) -> None:
                 'desp' : msg
             }
             response = await client.get(url, params=params)
+            logger.new('info', 'PUSHDEER PUSH:', str(key)[:8])
             if 'ok' not in response.text:
                 logger.new('error', "PUSH ERROR(PUSHDEER):", str(response.text))
         except httpx.HTTPError as err:
