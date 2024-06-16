@@ -1,9 +1,9 @@
 import asyncio
-import config
+import src.config as config
 # import push.mie as mie
-import push.pushdeer as pushdeer
-import push.pushover as pushover
-# import push.zeptomail as zepomail
+import src.push.pushdeer as pushdeer
+import src.push.pushover as pushover
+# import src.push.zeptomail as zepomail
 
 async def main(title : str=None, msg : str=None) -> None:
     '''

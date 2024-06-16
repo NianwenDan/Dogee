@@ -1,8 +1,8 @@
 import httpx
-import logger
+import src.logger
+import src.config
 import asyncio
 import json
-import config
 
 # Define the number of concurrent tasks allowed
 MAX_CONCURRENT_TASKS = 2

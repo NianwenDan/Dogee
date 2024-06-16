@@ -1,6 +1,6 @@
 import configparser
-import logger
-import sys
+import src.logger
+import sys, os
 
 # ACCESS and SECRET KEY
 ACCESS_KEY = None
@@ -10,7 +10,7 @@ SECRET_KEY = None
 # Log Level [DEBUG, INFO, ERROR, OFF]
 LOG_LEVEL = 'ERROR'
 # Dogee Program Log Saving Path
-LOG_SAVEPATH = 'Dogee.log'
+LOG_SAVEPATH = './data/Dogee.log'
 
 # Push Service Setting
 # deerpush
@@ -24,7 +24,7 @@ CDN_LOG_SAVE_ENABLE = False
 # Merge Log
 MERGE_LOG = True
 # CDN Log Store Path
-CDN_LOGS_STOREPATH = './cdnlog'
+CDN_LOGS_STOREPATH = './data/cdnlog'
 # TimeZone
 CDN_LOGS_TIMEZONE = 'Asia/Chongqing'
 
@@ -85,18 +85,22 @@ if not ACCESS_KEY or not SECRET_KEY:
     logger.new('error', 'ACCESS_KEY and SECRET_KEY cannot be empty.')
     sys.exit(1)
 
+# Create Necessary Directory
+# if not os.path.exists(LOG_SAVEPATH):
+#     os.makedirs(LOG_SAVEPATH)
 
-# # Print Configuration Setting
-# print('------------Config-Setting-------------')
-# print('ACCESS_KEY:', ACCESS_KEY)
-# print('SECRET_KEY:', SECRET_KEY)
-# print('LOG_LEVEL:', LOG_LEVEL)
-# print('LOG_SAVEPATH:', LOG_SAVEPATH)
-# print('PUSHDEER_KEYS:', PUSHDEER_KEYS)
-# print('PUSHOVER_APP_TOKEN:', PUSHOVER_APP_TOKEN)
-# print('PUSHOVER_USERS:', PUSHOVER_USERS)
-# print('CDN_LOG_SAVE_ENABLE:', CDN_LOG_SAVE_ENABLE)
-# print('MERGE_LOG:', MERGE_LOG)
-# print('CDN_LOGS_STOREPATH:', CDN_LOGS_STOREPATH)
-# print('CDN_LOGS_TIMEZONE:', CDN_LOGS_TIMEZONE)
-# print('---------End--Config-Setting-----------')
+
+# Print Configuration Setting
+print('------------Config-Setting-------------')
+print('ACCESS_KEY:', ACCESS_KEY)
+print('SECRET_KEY:', SECRET_KEY)
+print('LOG_LEVEL:', LOG_LEVEL)
+print('LOG_SAVEPATH:', LOG_SAVEPATH)
+print('PUSHDEER_KEYS:', PUSHDEER_KEYS)
+print('PUSHOVER_APP_TOKEN:', PUSHOVER_APP_TOKEN)
+print('PUSHOVER_USERS:', PUSHOVER_USERS)
+print('CDN_LOG_SAVE_ENABLE:', CDN_LOG_SAVE_ENABLE)
+print('MERGE_LOG:', MERGE_LOG)
+print('CDN_LOGS_STOREPATH:', CDN_LOGS_STOREPATH)
+print('CDN_LOGS_TIMEZONE:', CDN_LOGS_TIMEZONE)
+print('---------End--Config-Setting-----------')

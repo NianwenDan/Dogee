@@ -1,5 +1,5 @@
 import httpx
-import logger
+import src.logger
 
 async def req(key : str, title: str, msg : str) -> None:
     '''

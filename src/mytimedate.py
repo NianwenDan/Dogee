@@ -1,8 +1,8 @@
 import sys
 import pytz
 from datetime import datetime, timedelta
-from config import CDN_LOGS_TIMEZONE as TZ
-import logger
+from src.config import CDN_LOGS_TIMEZONE as TZ
+import src.logger
 
 def get(when: str, format: int=-1):
     # 检查TZ是否合法

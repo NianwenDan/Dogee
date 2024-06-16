@@ -1,5 +1,5 @@
 import logging
-import config
+import src.config as config
 
 def setup_logger():
     '''

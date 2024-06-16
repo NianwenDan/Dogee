@@ -1,10 +1,10 @@
 from hashlib import sha1
-from config import ACCESS_KEY, SECRET_KEY
+from src.config import ACCESS_KEY, SECRET_KEY
 import hmac
 import json
 import urllib
 import sys
-import logger
+import src.logger as logger
 import httpx
 
 

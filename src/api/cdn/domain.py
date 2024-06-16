@@ -1,6 +1,6 @@
 import httpx
-import api.dogecloud_api as dogecloud_api
-import logger
+import src.api.dogecloud_api as dogecloud_api
+import src.logger
 
 def list() -> dict:
     api_path = '/cdn/domain/list.json'

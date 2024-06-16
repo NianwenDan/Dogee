@@ -1,12 +1,13 @@
 import httpx
 import asyncio
 import gzip, shutil
-from config import CDN_LOGS_STOREPATH as storePATH
-from config import MERGE_LOG
+from src.config import CDN_LOGS_STOREPATH as storePATH
+from src.config import MERGE_LOG
+import src.mytimedate as mytimedate
+import src.logger as logger
+import src.api.cdn.log
 import os, sys
-import logger
-import mytimedate
-import api.cdn.log
+
 import traceback
 import time
 
@@ -90,7 +91,7 @@ async def download_and_manage_daily_logs() -> None:
     date_list = mytimedate.get('yesterday', 1)
     year, month, day = date_list
     # 获取需要下载的连接
-    log_links = api.cdn.log.get()
+    log_links = src.api.cdn.log.get()
     
     tasks = []
 

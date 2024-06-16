@@ -1,7 +1,7 @@
-import logger
-import api.dogecloud_api as dogecloud_api
-import api.cdn.domain as domain
-import mytimedate
+import src.logger as logger
+import src.api.dogecloud_api as dogecloud_api
+import src.api.cdn.domain as domain
+import src.mytimedate as mytimedate
 
 
 def get_domain_ids() -> list:
