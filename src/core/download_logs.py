@@ -3,7 +3,7 @@ import asyncio
 import gzip, shutil
 from src.config import CDN_LOGS_STOREPATH as storePATH
 from src.config import MERGE_LOG
-from src.api.cdn.domain import list_ids
+from src.api.cdn.domain import filter_domains
 import src.api.dogecloud_api as dogecloud_api
 import src.mytimedate as mytimedate
 import src.logger as logger
@@ -20,8 +20,13 @@ def get_downloadable_log_links() -> dict:
     '''
     # Dictionary to store all downloadable links
     log_info = {}
-    # ex for domain_ids = [[10008, 'nwdan.com'], [10010, 'www.nwdan.com']]
-    domain_ids = list_ids()
+    all_domains_info = filter_domains(status='online')
+    domain_ids = [] # ex for domain_ids = [[10008, 'nwdan.com'], [10010, 'www.nwdan.com']]
+    for domain in all_domains_info:
+        id = domain['id']
+        name = domain['name']
+        domain_ids.append([id, name])
+    logger.new('info', 'Active Domain List:', domain_ids)
     # 获取一下昨天的时间
     date = mytimedate.get('yesterday', 0)
     

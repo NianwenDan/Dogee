@@ -1,5 +1,6 @@
 import src.api.dogecloud_api as dogecloud_api
 import src.logger as logger
+from typing import List, Dict, Any
 
 def list() -> dict:
     api_path = '/cdn/domain/list.json'
@@ -7,24 +8,22 @@ def list() -> dict:
     return data
 
 
-def list_ids() -> list:
-    '''
-    Get all domain ids
-
-    :returns: A 2-D list of [domain ids, domain names]
-    '''
-    response = list()
-    # if response is not empty
-    if not response:
-        return
+def filter_domains(status: str = None) -> List[Dict[str, Any]]:
+    """
+    Filter the domains based on status
     
-    res = []
-    for i in response['data']['domains']:
-        # 只获取启用的域名
-        if i['status'] == 'online':
-            id = i['id']
-            name = i['name']
-            res.append([id, name])
+    :param status: The status to filter by (optional).
+    :return: A list of filtered domain dictionaries.
+    """
+    data = list()
+    response = []
 
-    logger.new('info', 'Active Domain List:', res)
-    return res
+    if data and 'data' in data and 'domains' in data['data']:
+        domains = data['data']['domains']
+        
+        for domain in domains:
+            if status and domain.get('status') != status:
+                continue
+            response.append(domain)
+    
+    return response

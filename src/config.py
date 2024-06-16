@@ -1,5 +1,5 @@
 import configparser
-import src.logger
+import src.logger as logger
 import sys, os
 
 # ACCESS and SECRET KEY
@@ -10,7 +10,7 @@ SECRET_KEY = None
 # Log Level [DEBUG, INFO, ERROR, OFF]
 LOG_LEVEL = 'ERROR'
 # Dogee Program Log Saving Path
-LOG_SAVEPATH = './data/Dogee.log'
+LOG_SAVEPATH = 'data/Dogee.log'
 
 # Push Service Setting
 # deerpush
@@ -24,9 +24,12 @@ CDN_LOG_SAVE_ENABLE = False
 # Merge Log
 MERGE_LOG = True
 # CDN Log Store Path
-CDN_LOGS_STOREPATH = './data/cdnlog'
+CDN_LOGS_STOREPATH = 'data/cdnlog'
 # TimeZone
 CDN_LOGS_TIMEZONE = 'Asia/Chongqing'
+
+# SSL Monitor Service
+CDN_SSL_RENEW_ENABLE = False
 
 
 
@@ -77,6 +80,8 @@ for s in sections:
             CDN_LOGS_STOREPATH = this_config['cdn_logs_storepath']
         if 'timezone' in this_config:
             CDN_LOGS_TIMEZONE = this_config['timezone']
+    elif s == 'doge-cloud-cdn-cert-renew':
+        CDN_SSL_RENEW_ENABLE = True
 
 
 # Sanity Check
@@ -85,9 +90,16 @@ if not ACCESS_KEY or not SECRET_KEY:
     logger.new('error', 'ACCESS_KEY and SECRET_KEY cannot be empty.')
     sys.exit(1)
 
-# Create Necessary Directory
-# if not os.path.exists(LOG_SAVEPATH):
-#     os.makedirs(LOG_SAVEPATH)
+def dir_safe_check():
+    # Create Necessary Directory
+    directory, filename = os.path.split(LOG_SAVEPATH)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    directory, filename = os.path.split(CDN_LOGS_STOREPATH)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+dir_safe_check()
 
 
 # # Print Configuration Setting

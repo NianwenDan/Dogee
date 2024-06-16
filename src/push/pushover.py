@@ -1,6 +1,6 @@
 import httpx
-import src.logger
-import src.config
+import src.logger as logger
+import src.config as config
 import asyncio
 import json
 
