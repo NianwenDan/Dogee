@@ -3,13 +3,39 @@ import asyncio
 import gzip, shutil
 from src.config import CDN_LOGS_STOREPATH as storePATH
 from src.config import MERGE_LOG
+from src.api.cdn.domain import list_ids
+import src.api.dogecloud_api as dogecloud_api
 import src.mytimedate as mytimedate
 import src.logger as logger
-import src.api.cdn.log
 import os, sys
-
 import traceback
 import time
+
+
+def get_downloadable_log_links() -> dict:
+    '''
+    Get all downloadable links
+
+    :returns: A dictionary of all downloadable links
+    '''
+    # Dictionary to store all downloadable links
+    log_info = {}
+    # ex for domain_ids = [[10008, 'nwdan.com'], [10010, 'www.nwdan.com']]
+    domain_ids = list_ids()
+    # 获取一下昨天的时间
+    date = mytimedate.get('yesterday', 0)
+    
+    for id, name in domain_ids:
+        api_path = f'/cdn/log/list.json?id={id}&date={date}&page_size=100'
+        data = dogecloud_api.send(api_path)
+        if data['code'] == 200:
+            log_info[name] = data['data']['log_list']
+
+    logger.new('debug', '\{domain\: its_log_info\}', log_info)
+
+    # 返回一个字典{'域名'：'对应域名的log信息'}
+    return log_info
+
 
 def mergeLogs(mergePATH="", domainName="UNKNOWN.DOMAIN") -> None:
     '''
@@ -91,7 +117,7 @@ async def download_and_manage_daily_logs() -> None:
     date_list = mytimedate.get('yesterday', 1)
     year, month, day = date_list
     # 获取需要下载的连接
-    log_links = src.api.cdn.log.get()
+    log_links = get_downloadable_log_links()
     
     tasks = []
 
